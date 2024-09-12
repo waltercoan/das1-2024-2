@@ -1,0 +1,16 @@
+### SEND
+POST http://localhost:8080/api/enviar
+Content-Type: application/json
+
+"{{$datetime iso8601}} walter ❤️❤️❤️"
+
+
+
+### RECEIVE
+GET http://localhost:8080/api/receber
+Content-Type: application/json
+
+
+
+
+
