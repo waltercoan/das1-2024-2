@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.univille.microkernel_pluggin.service.DefaultService;
+import br.univille.microkernel_kernel.service.DefaultService;
+
 
 @RestController
 @RequestMapping("/")
@@ -22,10 +23,13 @@ public class HomeAPIController {
 
     @GetMapping
     public ResponseEntity<String> index(){
-        var servicesList = Arrays.toString(services.keySet().toArray());
-        for(var serviceName : services.keySet()){
-            DefaultService oneservice = services.get(serviceName);
-            oneservice.doWork(null);
+        String servicesList = null;
+        if(services != null){
+            servicesList = Arrays.toString(services.keySet().toArray());
+            for(var serviceName : services.keySet()){
+                DefaultService oneservice = services.get(serviceName);
+                oneservice.doWork(null);
+            }
         }
 
         return new ResponseEntity<String>(servicesList, HttpStatus.OK);

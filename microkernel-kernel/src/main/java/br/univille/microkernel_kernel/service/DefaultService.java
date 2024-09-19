@@ -1,4 +1,4 @@
-package br.univille.microkernel_pluggin.service;
+package br.univille.microkernel_kernel.service;
 import java.util.HashMap;
 import org.springframework.http.HttpStatus;
 
