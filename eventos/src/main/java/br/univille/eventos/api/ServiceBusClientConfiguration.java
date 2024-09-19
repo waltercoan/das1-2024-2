@@ -18,6 +18,7 @@ public class ServiceBusClientConfiguration {
     private static final String SERVICE_BUS_FQDN = "das1univille.servicebus.windows.net";
     private static final String TOPIC_NAME = "das1";
     private static final String SUBSCRIPTION_NAME = "subswalter";
+    private static final String QUEUE_NAME = "queue-walter";
 
     @Bean
     ServiceBusClientBuilder serviceBusClientBuilder() {
@@ -27,16 +28,23 @@ public class ServiceBusClientConfiguration {
                    .credential(new DefaultAzureCredentialBuilder().build());
     }
 
-    @Bean
-    ServiceBusSenderClient serviceBusSenderClient(ServiceBusClientBuilder builder) {
+    @Bean(name = "topicsenderclient")
+    ServiceBusSenderClient serviceBusTopicSenderClient(ServiceBusClientBuilder builder) {
         return builder
                .sender()
                .topicName(TOPIC_NAME)
                .buildClient();
     }
+    @Bean(name = "queuesenderclient")
+    ServiceBusSenderClient serviceBusQueueSenderClient(ServiceBusClientBuilder builder) {
+        return builder
+               .sender()
+               .queueName(QUEUE_NAME)
+               .buildClient();
+    }
 
     @Bean
-    ServiceBusProcessorClient serviceBusProcessorClient(ServiceBusClientBuilder builder) {
+    ServiceBusProcessorClient serviceBusTopicProcessorClient(ServiceBusClientBuilder builder) {
         return builder.processor()
                       .topicName(TOPIC_NAME)
                       .subscriptionName(SUBSCRIPTION_NAME)

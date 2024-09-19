@@ -1,6 +1,7 @@
 package br.univille.eventos.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,15 +18,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/api")
 public class HomeControllerAPI {
 
-    @Autowired
-    private ServiceBusSenderClient senderClient;
+    @Autowired()
+    @Qualifier("topicsenderclient")
+    private ServiceBusSenderClient topicSenderClient;
+    @Autowired()
+    @Qualifier("queuesenderclient")
+    private ServiceBusSenderClient queueSenderClient;
     @Autowired
     private ServiceBusProcessorClient processorClient;
     
-    @PostMapping("/enviar")
-    public ResponseEntity enviar(@RequestBody String msg){
+    @PostMapping("/topic/enviar")
+    public ResponseEntity topicSend(@RequestBody String msg){
         System.out.println(msg);
-        senderClient.sendMessage(new ServiceBusMessage(msg));
+        topicSenderClient.sendMessage(new ServiceBusMessage(msg));
+        return ResponseEntity.ok().build();
+    }
+    @PostMapping("/queue/enviar")
+    public ResponseEntity queueSend(@RequestBody String msg){
+        System.out.println(msg);
+        queueSenderClient.sendMessage(new ServiceBusMessage(msg));
         return ResponseEntity.ok().build();
     }
     
