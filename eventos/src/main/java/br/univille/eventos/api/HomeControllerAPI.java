@@ -24,8 +24,15 @@ public class HomeControllerAPI {
     @Autowired()
     @Qualifier("queuesenderclient")
     private ServiceBusSenderClient queueSenderClient;
+    
     @Autowired
-    private ServiceBusProcessorClient processorClient;
+    @Qualifier("serviceBusTopicProcessorClient")
+    private ServiceBusProcessorClient processorTopicClient;
+    @Autowired
+    @Qualifier("serviceBusQueueProcessorClient")
+    private ServiceBusProcessorClient processorQueueClient;
+
+    
     
     @PostMapping("/topic/enviar")
     public ResponseEntity topicSend(@RequestBody String msg){
@@ -40,9 +47,14 @@ public class HomeControllerAPI {
         return ResponseEntity.ok().build();
     }
     
-    @GetMapping("/receber")
-    public ResponseEntity buscar(){
-        processorClient.start();
+    @GetMapping("/topic/receber")
+    public ResponseEntity topicReceive(){
+        processorTopicClient.start();
+        return ResponseEntity.ok().build();
+    }
+    @GetMapping("/queue/receber")
+    public ResponseEntity queueReceive(){
+        processorQueueClient.start();
         return ResponseEntity.ok().build();
     }
 

@@ -43,11 +43,19 @@ public class ServiceBusClientConfiguration {
                .buildClient();
     }
 
-    @Bean
+    @Bean(name = "serviceBusTopicProcessorClient")
     ServiceBusProcessorClient serviceBusTopicProcessorClient(ServiceBusClientBuilder builder) {
         return builder.processor()
                       .topicName(TOPIC_NAME)
                       .subscriptionName(SUBSCRIPTION_NAME)
+                      .processMessage(ServiceBusClientConfiguration::processMessage)
+                      .processError(ServiceBusClientConfiguration::processError)
+                      .buildProcessorClient();
+    }
+    @Bean(name = "serviceBusQueueProcessorClient")
+    ServiceBusProcessorClient serviceBusQueueProcessorClient(ServiceBusClientBuilder builder) {
+        return builder.processor()
+                      .queueName(QUEUE_NAME)
                       .processMessage(ServiceBusClientConfiguration::processMessage)
                       .processError(ServiceBusClientConfiguration::processError)
                       .buildProcessorClient();
