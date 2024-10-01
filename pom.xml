@@ -11,6 +11,9 @@
 
     <modules>
         <module>eventos</module>
+        <module>microkernel-plugin</module>
+        <module>microkernel-kernel</module>
+        
     </modules>
 
 </project>
