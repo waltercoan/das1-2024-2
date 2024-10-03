@@ -12,7 +12,6 @@
 	<artifactId>microkernel-kernel</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>microkernel-kernel</name>
-
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>
@@ -47,17 +46,18 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>br.univille</groupId>
-			<artifactId>microkernel-interface</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>br.univille</groupId>
-			<artifactId>microkernel-plugin</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+	
 	</dependencies>
-
+	<modules>
+		<module>microkernel-plugin</module>
+	</modules>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
