@@ -3,7 +3,7 @@ package br.univille.microkernel_plugin.service.impl;
 import java.util.HashMap;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import br.univille.microkernel_kernel.service.DefaultService;
+import br.univille.microkernel_interface.service.DefaultService;
 
 @Service
 public class ServiceTwoImpl implements DefaultService{
