@@ -3,7 +3,12 @@ package br.univille.espacotuplas.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.univille.espacotuplas.entity.Cliente;
 import br.univille.espacotuplas.repository.ClienteRepository;
@@ -14,6 +19,8 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Autowired
     private ClienteRepository repository;
+    @Autowired
+    private StringRedisTemplate template;
 
     @Override
     public List<Cliente> getAll() {
@@ -23,7 +30,30 @@ public class ClienteServiceImpl implements ClienteService{
     @Override
     public Cliente save(Cliente cliente) {
         repository.save(cliente);
+
+        ValueOperations<String, String> ops = this.template.opsForValue();
+        ops.set(String.valueOf(cliente.getId()), clienteToJson(cliente));
+
         return cliente;
+    }
+
+    private String clienteToJson(Cliente cliente){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.writeValueAsString(cliente);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return "{}";
+        }
+    }
+    private Cliente jsonToCliente(String cliente){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            return mapper.readValue(cliente, Cliente.class);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
