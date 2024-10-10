@@ -14,6 +14,7 @@
         <module>microkernel-kernel</module>
         <module>microkernel-interface</module>
         <module>microkernel-plugin</module>
+        <module>espacotuplas</module>
     </modules>
 	<build>
 		<plugins>
