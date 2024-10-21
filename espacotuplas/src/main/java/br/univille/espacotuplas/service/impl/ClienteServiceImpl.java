@@ -3,6 +3,7 @@ package br.univille.espacotuplas.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import br.univille.espacotuplas.entity.Cliente;
@@ -15,6 +16,9 @@ public class ClienteServiceImpl implements ClienteService{
     @Autowired
     private ClienteRepository repository;
 
+    @Autowired
+    private StringRedisTemplate template;
+
     @Override
     public List<Cliente> getAll() {
         return repository.findAll();
@@ -23,6 +27,9 @@ public class ClienteServiceImpl implements ClienteService{
     @Override
     public Cliente save(Cliente cliente) {
         repository.save(cliente);
+
+        
+
         return cliente;
     }
 
