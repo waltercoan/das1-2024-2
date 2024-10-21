@@ -32,7 +32,7 @@ public class ClienteServiceImpl implements ClienteService{
         repository.save(cliente);
 
         ValueOperations<String, String> ops = this.template.opsForValue();
-        ops.set(String.valueOf(cliente.getId()), clienteToJson(cliente));
+        ops.set(String.valueOf(String.format("walter-%d", cliente.getId())), clienteToJson(cliente));
 
         return cliente;
     }
@@ -68,9 +68,21 @@ public class ClienteServiceImpl implements ClienteService{
 
     @Override
     public Cliente getById(long id) {
-        var retorno = repository.findById(id);
-        if(retorno.isPresent())
-            return retorno.get();
+
+        ValueOperations<String, String> ops = this.template.opsForValue();
+        var clientCache = ops.get(String.format("walter-%d", id));
+        if(clientCache != null){
+            var clienteObject = jsonToCliente(clientCache);
+            return clienteObject;    
+        }else{
+            var retorno = repository.findById(id);
+            if(retorno.isPresent()){
+                var clienteObject = retorno.get();
+                ops.set(String.valueOf(String.format("walter-%d", clienteObject.getId())), clienteToJson(clienteObject));
+                return clienteObject;
+            }
+        }
+        
         return null;
     }
     
